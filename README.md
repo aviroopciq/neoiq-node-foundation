@@ -8,9 +8,11 @@ Node.js observability foundation for CommerceIQ services. Integrates with **Grou
 │  (canvas-weaver)│     │   (in-cluster)  │     │   (dashboard)   │
 └─────────────────┘     └─────────────────┘     └─────────────────┘
         │                        │
-        ├── Traces ──────────────┤
-        ├── Metrics ─────────────┤
-        └── Logs ────────────────┘
+        ├── Traces (OTLP) ───────┤
+        └── Metrics (OTLP) ──────┘
+
+        │
+        └── Logs (stdout) ──────▶ Groundcover Agent scrapes container logs
 ```
 
 ## Features
@@ -248,9 +250,11 @@ process.on('SIGTERM', async () => {
 - `http.client.request.duration` - Outgoing request latency
 - Custom business metrics you define
 
-### Logs
-- Structured JSON with traceId, spanId, correlationId
-- Automatically correlated with traces in Groundcover
+### Logs (via stdout)
+- Structured JSON logs written to stdout (Pino)
+- Include traceId, spanId, correlationId for correlation
+- Groundcover Agent scrapes container logs
+- Automatically correlated with traces in Groundcover dashboard
 
 ---
 
